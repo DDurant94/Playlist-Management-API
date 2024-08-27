@@ -1,0 +1,70 @@
+About:
+
+PIP Installs:
+  -blinker                1.8.2
+  -click                  8.1.7
+  -colorama               0.4.6
+  -Flask                  3.0.3
+  -flask-marshmallow      1.2.1
+  -Flask-SQLAlchemy       3.1.1
+  -greenlet               3.0.3
+  -itsdangerous           2.2.0
+  -Jinja2                 3.1.4
+  -MarkupSafe             2.1.5
+  -marshmallow            3.22.0
+  -marshmallow-sqlalchemy 1.1.0
+  -mysql-connector-python 9.0.0
+  -packaging              24.1
+  -pip                    24.2
+  -SQLAlchemy             2.0.32
+  -typing_extensions      4.12.2
+  -Werkzeug               3.0.4
+
+Imports:
+
+Time & Space Complexity:
+
+Questions:
+
+  Problem Statement:
+  Our goal is to develop a playlist management system that lets you create songs, create a playlist, and add songs and remove songs from that 
+  playlist(s).
+
+  Project Requirements
+
+    Data Organization with Lists and Dictionaries:
+      -Implement operations for managing playlists & songs.
+      -Provide functionalities to add songs and create playlists
+      -Ensure effective storage and retrieval of playlist information. We learned about a lot of algorithms to help efficiently manage these things. 
+      -What might be useful to implement this? 
+
+    Efficient Search and Sort Algorithms for Playlist Navigation:
+      -Implement a search and sort algorithm for finding a song or sorting songs based off name, artist, or genre.
+      -Analyze the time complexity and performance trade-offs of search and sort algorithms in playlist management.
+
+    Building a Flask API for Playlist Access and Management:
+      -Implement CRUD endpoints using Flask for managing playlists and songs.
+
+      API endpoints:
+      
+        Song Endpoints:
+          -Create Song
+          -Update Song
+          -Delete Song
+          -Search/Get a Song
+
+        Playlist Endpoints:
+          -Create Playlist
+          -Get Playlist
+          -Update Playlist
+
+        Delete Playlist:
+          -Additional Endpoints:
+          -Add song to Playlist
+          -Remove song from Playlist
+          -Sort songs in Playlist by song name, genre, and artist
+
+  Additional Notes: 
+    As stated before, you've learned about a lot of new algorithms and ways to handle data. How might some of those things you learned be of 
+    use here? How might stacks or queues for removing songs from the beginning or end of a playlist be useful. How might something like a 
+    linked list come in handy? What kind of efficient search or sort algorithms might help handle a playlist thousands long?
