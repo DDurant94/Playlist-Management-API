@@ -1,4 +1,8 @@
 About:
+    Playlist_db is a music RESTful Flask API designed for the safe and efficient storage of playlist data. I have created several endpoints 
+  that allow users to add, remove, edit, and delete songs and playlists. I have implemented a doubly linked list data structure to handle 
+  songs within both the “all songs” and “playlist songs” categories, allowing for swift and effective access to data and each node’s neighbors. 
+  Additionally, I have implemented TimSort and binary search algorithms for smooth search and sort operations.
 
 PIP Installs:
   -blinker                1.8.2
@@ -21,8 +25,16 @@ PIP Installs:
   -Werkzeug               3.0.4
 
 Imports:
+  -from flask import Flask,jsonify,request
+  -from flask_marshmallow import Marshmallow
+  -from flask_sqlalchemy import SQLAlchemy
+  -from marshmallow import fields,validate, ValidationError
+  -from sqlalchemy.orm import relationship
 
 Time & Space Complexity:
+  -Doubly Linked List: O(n)
+  -TimSort: O(n log n)
+  -Binary Search: O(n)
 
 Questions:
 
