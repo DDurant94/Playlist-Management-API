@@ -2,8 +2,7 @@ from flask import Flask,jsonify,request
 from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
 from marshmallow import fields,validate, ValidationError
-from sqlalchemy.orm import relationship
-from helpers import binary_search,PlaylistManager
+from helpers import binary_search,PlaylistManager, merge_sort,merge_sort_playlist
 
 
 app = Flask(__name__)
@@ -94,7 +93,7 @@ def home():
 def get_all_songs():
   playlist_manager = PlaylistManager()
   sorted_songs = songs()
-  [playlist_manager.add_song(song_data['id'],song_data['title'],song_data['artist'],song_data['duration'],song_data['genre']) for song_data in sorted_songs]
+  [playlist_manager.add_song(song_data.id,song_data.title,song_data.artist,song_data.duration,song_data.genre.name) for song_data in sorted_songs]
   return playlist_manager.traversal()
 
 @app.route("/songs",methods=["POST"])
@@ -102,7 +101,7 @@ def add_song():
   try:
     song_data = song_schema.load(request.json)
   except ValidationError as err:
-    return jsonify(err.message),400
+    return jsonify(err.messages),400
   new_song = Song(title=song_data['title'],artist=song_data['artist'],duration=song_data['duration'],genre_id=song_data['genre_id'])
   db.session.add(new_song)
   db.session.commit()
@@ -114,7 +113,7 @@ def update_song(id):
   try:
     song_data = song_schema.load(request.json)
   except ValidationError as err:
-    return jsonify(err.message),400
+    return jsonify(err.messages),400
   song.title=song_data["title"]
   song.artist=song_data["artist"]
   song.duration=song_data["duration"]
@@ -141,9 +140,8 @@ def get_song_by_title(title):
 
 def songs():
   songs_data = Song.query.all()
-  songs = [{'id':song.id,'title':song.title,'artist':song.artist,'duration':song.duration, 'genre': song.genre.name,} for song in songs_data]
-  sorted_songs = sorted(songs,key=lambda song: song.get('title'))
-  return sorted_songs
+  merge_sort(songs_data)
+  return songs_data
 #<--------------------------------Genre End Routes------------------------------------>
 
 @app.route("/genres",methods=["GET"])
@@ -156,7 +154,7 @@ def add_genre():
   try:
     genre_data=genre_schema.load(request.json)
   except ValidationError as err:
-    return jsonify(err.message),400
+    return jsonify(err.messages),400
   new_genre = Genre(name=genre_data['name'])
   db.session.add(new_genre)
   db.session.commit()
@@ -171,7 +169,7 @@ def update_genre(id):
     return jsonify(err.messages), 400
   genre.name = genre_data['name']
   db.session.commit()
-  return jsonify({"message": f"{genre_data['name']} has been successfully added!"}), 200
+  return jsonify({"message": f"{genre_data['name']} has been successfully updated!"}), 200
 
 @app.route("/genres/<int:id>",methods=["DELETE"])
 def delete_genre(id):
@@ -204,8 +202,9 @@ def sort_playlist(name,sort_by):
   playlists_data = playlists()
   for playlist in playlists_data:
     if name in playlist['name']:
-      for song in sorted(playlist['songs'],key=lambda x: x.get(f"{sort}")):
-        playlist_manager.add_song(song['title'],song['artist'],song['duration'],song['genre'])
+      merge_sort_playlist(playlist['songs'],sort)
+      for song in playlist['songs']:
+        playlist_manager.add_song(song['id'],song['title'],song['artist'],song['duration'],song['genre'])
       return playlist_manager.traversal()
     return jsonify({"message": "Playlist not Found!"}), 400
 
