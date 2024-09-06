@@ -2,7 +2,7 @@ from flask import Flask,jsonify,request
 from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
 from marshmallow import fields,validate, ValidationError
-from helpers import binary_search,PlaylistManager, merge_sort,merge_sort_playlist
+from helpers import PlaylistManager, merge_sort,merge_sort_playlist,song_binary_search
 
 
 app = Flask(__name__)
@@ -133,9 +133,9 @@ def delete_song(title):
 @app.route("/song-search/<string:title>")
 def get_song_by_title(title):
   sorted_songs = songs()
-  results = binary_search(sorted_songs,title)
+  results = song_binary_search(sorted_songs,title)
   if results != -1:
-    return results
+    return jsonify(song_schema.dump(results))
   return jsonify({"message": f"{title} not found!"}), 400
 
 def songs():

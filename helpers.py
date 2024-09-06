@@ -86,21 +86,6 @@ class PlaylistManager:
       current = current.next
     return jsonify(songs) 
 
-# search for song title, artist or, genre
-def binary_search(arr,title):
-  low = 0
-  high = len(arr) - 1 #getting last index
-  while low <= high:
-    mid = (low + high)//2
-    print(arr[mid]['title'])
-    if arr[mid]['title'] == title:
-      return arr[mid]
-    elif arr[mid]['title'] < title:
-      low = mid + 1
-    else:
-      high = mid -1
-  return -1
-
 def merge_sort(arr):
   if len(arr) > 1:
     mid = len(arr)// 2 
@@ -130,8 +115,7 @@ def merge_sort(arr):
       arr[k] = right_half[j]
       j+=1
       k += 1
-      
-      
+        
 def merge_sort_playlist(arr,sort_by):
   if len(arr) > 1:
     mid = len(arr)// 2 
@@ -161,3 +145,16 @@ def merge_sort_playlist(arr,sort_by):
       arr[k] = right_half[j]
       j+=1
       k += 1
+         
+def song_binary_search(arr,title):
+  low = 0
+  high = len(arr) - 1 #getting last index
+  while low <= high:
+    mid = (low + high)//2
+    if arr[mid].title == title:
+      return arr[mid]
+    elif arr[mid].title < title:
+      low = mid + 1
+    else:
+      high = mid -1
+  return -1
